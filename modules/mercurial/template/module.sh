@@ -7,8 +7,8 @@ DATASOURCES[git]=file://$GIT_FILE
 function git-template-prepare-data {
 cat << EOF > $GIT_FILE
 ---
-  url: $(git ls-remote --get-url)
-  name: $(basename `git ls-remote --get-url` .git)
+  url: $(hg paths | awk '/^default =/ {print $NF;exit}')
+  name: $(basename $(hg paths | awk '/^default =/ {print $NF;exit}'))
   commit: ${GIT_COMMIT}
   commit_short: ${GIT_COMMIT_SHORT}
   branch: ${GIT_BRANCH}
