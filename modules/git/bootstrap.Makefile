@@ -1,5 +1,6 @@
 ifeq ($(wildcard .git),)
   $(warning disabling git bootstrapping)
+  MODULE_GIT__BOOTSTRAP_EXITCODE := ""
 else
 GIT ?= $(shell which git)
 
@@ -25,5 +26,7 @@ ifeq ($(shell $(GIT) describe --exact-match --tags 2>/dev/null),)
 else
   export GIT_IS_TAG := 1
 endif
+
+MODULE_GIT__BOOTSTRAP_EXITCODE := "success"
 
 endif

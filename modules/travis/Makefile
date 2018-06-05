@@ -8,6 +8,8 @@ else ifneq ($(TRAVIS_TAG),)
   CANONICAL_TAG ?= $(TRAVIS_TAG)-$(TRAVIS_BUILD_NUMBER)
 else ifneq ($(wildcard .git),)
   CANONICAL_TAG ?= $(shell git rev-parse --abbrev-ref HEAD)
+else ifneq ($(wildcard .hg/git),)
+  CANONICAL_TAG=$(shell hg id -B -r .)
 else
   $(warning unable to extrapolate current BRANCH)
 endif
