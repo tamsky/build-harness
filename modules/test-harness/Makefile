@@ -3,6 +3,7 @@ export TEST_HARNESS_VERSION ?= 0.1.1
 export TEST_HARNESS_REPOSITORY ?= "https://github.com/cloudposse/test-harness"
 ## $(BUILD_HARNESS_PATH)/vendor
 export TEST_HARNESS_PATH ?= $(INSTALL_PATH)/test-harness
+export TEST_HARNESS_TERRAFORM_PATH ?= $(TEST_HARNESS_PATH)/tests/terraform
 
 ## Check if here's cloned test-harness repository
 test-harness/check:
@@ -24,3 +25,19 @@ test-harness/install:
 ## Delete test-harness
 test-harness/delete:
 	@rm -rf $(TEST_HARNESS_PATH);
+
+## Run all terraform tests
+test-harness/terraform-all:
+	@if [! -d $(TEST_HARNESS_TERRAFORM_PATH) ]; then \
+		echo "There's no test-harness $(TEST_HARNESS_VERSION) installed"; \
+	else \
+		bats --tap $(TEST_HARNESS_TERRAFORM_PATH); \
+	fi
+
+## Just for testing run lint test
+test-harness/terraform-00-lint:
+	@if [! -d $(TEST_HARNESS_TERRAFORM_PATH) ]; then \
+		echo "There's no test-harness $(TEST_HARNESS_VERSION) installed"; \
+	else \
+		bats --tap $(TEST_HARNESS_TERRAFORM_PATH)/00.lint.bats; \
+	fi
